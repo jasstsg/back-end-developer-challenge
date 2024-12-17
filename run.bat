@@ -15,7 +15,7 @@ start cmd /k run-frontend.bat
 
 REM Give the UI a few seconds to start before opening the browser
 REM Ideally we would replace this with a proper request made to the UI to check if its running and healthy
-timeout 3
+timeout 10
 
 REM Open the UI app in browser
 start "" http://localhost:3000

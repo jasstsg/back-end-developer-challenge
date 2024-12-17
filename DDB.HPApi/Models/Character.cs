@@ -1,14 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DDB.HPApi.Models
 {
     public class Character
     {
-        private int _maxHitPoints = -1;
-        private int _currentHitPoints = 0;
-        private int _currentTempHitPoints = 0;
-
         [Key]
         public Guid Id { get; set; }
 
@@ -16,41 +11,11 @@ namespace DDB.HPApi.Models
 
         public int Level { get; set; }
 
-        public int HitPoints
-        {
-            get
-            {
-                return _currentHitPoints;
-            }
-            set
-            {
-                if (_maxHitPoints < 0)
-                {
-                    _maxHitPoints = value;
-                }
-                _currentHitPoints = value;
-            }
-        }
+        public int HitPoints { get; set; }  // Max hit points
 
-        public int TempHitPoints
-        {
-            get
-            {
-                return _currentTempHitPoints;
-            }
-            set
-            {
-                _currentTempHitPoints = value;
-            }
-        }
+        public int TempHitPoints { get; set; }
 
-        public int MaxHitPoints
-        {
-            get
-            {
-                return _maxHitPoints;
-            }
-        }
+        public int CurrentHitPoints { get; set; }
 
         public ICollection<CharacterClass>? Classes { get; set; }
 

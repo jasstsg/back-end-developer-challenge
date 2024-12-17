@@ -15,7 +15,7 @@ export default function CustomForm( props: { props: Character }) {
     const [characterInfo, setCharacterInfo] = useState("");
     
     useEffect(() => {
-        setCharacterInfo(`${character.name} has ${character.hitPoints} / ${character.maxHitPoints} HP and ${character.tempHitPoints} temporary HP`);
+        setCharacterInfo(`${character.name} has ${character.currentHitPoints} / ${character.hitPoints} HP and ${character.tempHitPoints} temporary HP`);
     }, [character])
 
     const actions = ["Deal Damage", "Heal", "Add Temporary Hit Points"]

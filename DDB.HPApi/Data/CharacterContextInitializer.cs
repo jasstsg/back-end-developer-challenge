@@ -15,18 +15,18 @@ namespace DDB.HPApi.Data
                 return; // We have already seeded the database.
             }
 
-            JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions(new JsonSerializerOptions()
+            JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions()
             {
                 ReferenceHandler = ReferenceHandler.IgnoreCycles,
                 UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip,
                 PropertyNameCaseInsensitive = true,
-            });
+            };
 
             // Seed the database
             Character Briv = JsonSerializer.Deserialize<Character>(Properties.Resources.briv, jsonSerializerOptions) ??
               throw new InvalidOperationException("Failed to deserialize JSON file to object of type 'Character'");
-            context.Characters.Add(Briv);
-
+            Briv.CurrentHitPoints = Briv.HitPoints; // Initialize any values that need a default
+            context.Characters.Add(Briv);           // Add to database and save
             context.SaveChanges();
         }
     }

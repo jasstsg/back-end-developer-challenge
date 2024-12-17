@@ -9,7 +9,7 @@ export default interface Character {
     level: number
     hitPoints: number
     tempHitPoints: number
-    maxHitPoints: number
+    currentHitPoints: number
     classes: Class[]
     stats: Stats
     items: Item[]

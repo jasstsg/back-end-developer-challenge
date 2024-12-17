@@ -73,7 +73,7 @@ namespace DDB.HPApi.Services
             // At this point temporary hit points would be negative, so adding this to hit points reduces it
             // Make sure hit points can't go lower than zero
             // Set temporary hit points to zero
-            character.HitPoints = Math.Max(character.HitPoints + character.TempHitPoints, 0);
+            character.CurrentHitPoints = Math.Max(character.CurrentHitPoints + character.TempHitPoints, 0);
             character.TempHitPoints = 0;
 
             return await _repository.UpdateAsync(character);
@@ -82,7 +82,7 @@ namespace DDB.HPApi.Services
         public async Task<Character> HealCharacter(Guid id, int value)
         {
             var character = await _repository.GetByIdAsync(id);
-            character.HitPoints = Math.Min(character.HitPoints + value, character.MaxHitPoints);
+            character.CurrentHitPoints = Math.Min(character.CurrentHitPoints + value, character.HitPoints);
             return await _repository.UpdateAsync(character);
         }
 
