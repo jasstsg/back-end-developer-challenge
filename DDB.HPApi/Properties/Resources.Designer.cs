@@ -61,12 +61,40 @@ namespace DDB.HPApi.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to {
+        ///  &quot;name&quot;: &quot;Briv&quot;,
+        ///  &quot;level&quot;: 5,
+        ///  &quot;hitPoints&quot;: 25,
+        ///  &quot;classes&quot;: [
+        ///    {
+        ///    &quot;name&quot;:&quot;fighter&quot;,
+        ///    &quot;hitDiceValue&quot;:10,
+        ///    &quot;classLevel&quot;:5
+        ///    }
+        ///  ],
+        ///  &quot;stats&quot;:{
+        ///    &quot;strength&quot;:15,
+        ///    &quot;dexterity&quot;:12,
+        ///    &quot;constitution&quot;:14,
+        ///    &quot;intelligence&quot;:13,
+        ///    &quot;wisdom&quot;:10,
+        ///    &quot;charisma&quot;:8
+        ///  },
+        ///  &quot;items&quot;:[
+        ///    {
+        ///      &quot;name&quot;:&quot;Ioun Stone of Fortitude&quot;,
+        ///      &quot;modifier&quot;:{
+        ///        &quot;affectedObject&quot;:&quot;stats&quot;,
+        ///        &quot;affectedValue&quot;:&quot;constitution&quot;,
+        ///        &quot;value&quot;:2
+        ///      }
+        ///    }
+        ///  ],
+        ///  &quot;defense [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static byte[] briv {
+        internal static string briv {
             get {
-                object obj = ResourceManager.GetObject("briv", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("briv", resourceCulture);
             }
         }
     }

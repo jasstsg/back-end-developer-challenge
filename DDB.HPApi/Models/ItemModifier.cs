@@ -13,13 +13,14 @@ namespace DDB.HPApi.Models
         public string? AffectedObject { get; set; }
 
         public string? AffectedValue { get; set; }
-        [Required]
+
         public int Value { get; set; }
 
+        [ForeignKey("ItemId")]
+        [JsonIgnore]
         public Guid ItemId { get; set; }
 
         [JsonIgnore]
-        [ForeignKey("ItemId")]
         public Item? Item { get; set; }
     }
 }

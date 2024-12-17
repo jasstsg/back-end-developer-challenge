@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add database context
 const string DB_NAME = "CharacterDB";
-string connectionString = builder.Configuration.GetConnectionString(DB_NAME) ?? 
+string connectionString = builder.Configuration.GetConnectionString(DB_NAME) ??
     throw new Exception($"Could not find connection string for data '{DB_NAME}'");
 builder.Services.AddDbContext<CharacterContext>(options => options.UseSqlServer(connectionString));
 
@@ -20,6 +20,18 @@ builder.Services.AddControllers();
 // Add repositories and services
 builder.Services.AddScoped<ICharacterRepository, CharacterRepository>();
 builder.Services.AddScoped<ICharacterService, CharacterService>();
+
+// Allow requests from the front end
+string _corsPolicyName = "ddb-hp-ui";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(_corsPolicyName, policybuilder =>
+    {
+        policybuilder.WithOrigins("http://localhost:3000");
+        policybuilder.AllowAnyHeader();
+        policybuilder.AllowAnyMethod();
+    });
+});
 
 // Add memory cache
 builder.Services.AddSingleton<IMemoryCache, MemoryCache>();
@@ -45,7 +57,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseCors(_corsPolicyName);
 
 app.UseAuthorization();
 

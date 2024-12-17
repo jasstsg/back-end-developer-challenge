@@ -14,8 +14,11 @@ namespace DDB.HPApi.Models
 
         public DefensePotency Defense { get; set; }
 
-        [JsonIgnore]
         [ForeignKey("CharacterId")]
+        [JsonIgnore]
+        public Guid CharacterId { get; set; }
+
+        [JsonIgnore]
         public Character? Character { get; set; }
     }
 }

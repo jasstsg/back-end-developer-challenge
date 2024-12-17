@@ -11,11 +11,13 @@ namespace DDB.HPApi.Models
 
         public string? Name { get; set; }
 
-        [InverseProperty("Item")]
         public ItemModifier? Modifier { get; set; }
 
-        [JsonIgnore]
         [ForeignKey("CharacterId")]
+        [JsonIgnore]
+        public Guid CharacterId { get; set; }
+
+        [JsonIgnore]
         public Character? Character { get; set; }
     }
 

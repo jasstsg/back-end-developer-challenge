@@ -18,4 +18,4 @@ REM Ideally we would replace this with a proper request made to the UI to check 
 timeout 3
 
 REM Open the UI app in browser
-start "https://localhost:3000"
+start "" http://localhost:3000

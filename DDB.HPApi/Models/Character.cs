@@ -52,16 +52,11 @@ namespace DDB.HPApi.Models
             }
         }
 
-        [InverseProperty("Character")]
         public ICollection<CharacterClass>? Classes { get; set; }
-        
-        [InverseProperty("Character")]
-        public Stats? Stats { get; set; }
 
-        [InverseProperty("Character")]
+        public Stats? Stats { get; set; }
         public ICollection<Item>? Items { get; set; }
 
-        [InverseProperty("Character")]
         public ICollection<DefenseType>? Defenses { get; set; }
     }
 }

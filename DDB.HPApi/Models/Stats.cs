@@ -21,8 +21,11 @@ namespace DDB.HPApi.Models
 
         public int Charisma { get; set; }
 
-        [JsonIgnore]
         [ForeignKey("CharacterId")]
+        [JsonIgnore]
+        public Guid CharacterId { get; set; }
+
+        [JsonIgnore]
         public Character? Character { get; set; }
     }
 }

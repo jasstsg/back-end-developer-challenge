@@ -5,7 +5,6 @@ namespace DDB.HPApi.Enums
     [JsonConverter(typeof(JsonStringEnumConverter))]   
     public enum DamageTypes
     {
-        None,
         Bludgeoning,
         Piercing,
         Slashing,

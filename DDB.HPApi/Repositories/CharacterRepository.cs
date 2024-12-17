@@ -16,30 +16,32 @@ namespace DDB.HPApi.Repositories
 
         public async Task<Character> GetByIdAsync(Guid id)
         {
-            var result = await _context.Characters.FindAsync(id);
-            if (result == null)
-            {
-                throw new NullReferenceException($"Could not find character with id {id}");
-            }
-            return result;
+            var result = await _context.Characters
+                .Include(c => c.Stats)
+                .Include(c => c.Classes)
+                .Include(c => c.Defenses)
+                .Include(c => c.Items)
+                .FirstOrDefaultAsync(c => c.Id.Equals(id));
+
+            return result!;
         }
 
         public async Task<IEnumerable<Character>> GetAll()
         {
-            return await _context.Characters.ToListAsync();
+            return await _context.Characters
+                .Include(c => c.Stats)
+                .Include(c => c.Classes)
+                .Include(c => c.Defenses)
+                .Include(c => c.Items)
+                .ToListAsync();
         }
 
         public async Task<Character> UpdateAsync(Character character)
         {
             var result = await _context.Characters.FindAsync(character.Id);
-            if (result == null)
-            {
-                throw new NullReferenceException($"Could not find character with id {character.Id}");
-            }
             _context.Characters.Update(character);
             await _context.SaveChangesAsync();
-            return result;
-
+            return result!;
         }
     }
 }
