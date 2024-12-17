@@ -15,8 +15,8 @@ export default function CustomForm( props: { props: Character }) {
     const [characterInfo, setCharacterInfo] = useState("");
     
     useEffect(() => {
-        let resistances = character.defenses.filter(d => d.defense == "Resistance");
-        let immunities = character.defenses.filter(d => d.defense == "Immunity");
+        const resistances = character.defenses.filter(d => d.defense == "Resistance");
+        const immunities = character.defenses.filter(d => d.defense == "Immunity");
         setCharacterInfo(
             `${character.name}
 HP:               ${character.currentHitPoints} / ${character.hitPoints}

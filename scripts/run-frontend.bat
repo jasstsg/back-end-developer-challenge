@@ -1,6 +1,12 @@
 @echo off
+cd ..\ddb-hp-ui
+
+
+echo installing npm modules...
+call npm install
+
+echo building the application...
+call npm run build
 
 echo starting the fronent ui app...
-cd ..\ddb-hp-ui
-npm run build
-npm run start
+call npm run start
