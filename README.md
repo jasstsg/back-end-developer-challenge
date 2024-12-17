@@ -1,63 +1,65 @@
 # DDB Back End Developer Challenge
 
-### Overview
-This task focuses on creating an API for managing a player character's Hit Points (HP) within our game. The API will enable clients to perform various operations related to HP, including dealing damage of different types, considering character resistances and immunities, healing, and adding temporary Hit Points. The task requires building a service that interacts with HP data provided in the `briv.json` file and persists throughout the application's lifetime.
+## Overview
+This repository implements the task outlined in the [back-end-developer-challenge](https://github.com/DnDBeyond/back-end-developer-challenge) repository.  It provides an API for managing a Dungeons and Dragons player character's Hit Points (HP).  The API provides operations for dealing damage, healing, and add temporary hit points to the character.
 
-### Task Requirements
+## Usage
 
-#### API Operations
-1. **Deal Damage**
-    - Implement the ability for clients to deal damage of different types (e.g., bludgeoning, fire) to a player character.
-    - Ensure that the API calculates damage while considering character resistances and immunities.
+### Dependencies
+- SQL Server 2019
+- .NET Core 8
+- Node v20.18.0
 
-    > Suppose a player character is hit by an attack that deals Piercing damage, and the attacker rolls a 14 on the damage's Hit Die (with a Piercing damage type). `[Character Hit Points - damage: 25 - 14 = 11]`
+### Getting Started
+1. Ensure you have the dependencies installed
+2. Clone this repository and open the root folder
+3. Double click the `run.bat` file or run it in a command prompt.  This executes the following commands for you (if you have issues run these manually):
+  - Run the backend:
+     ```CMD
+      cd <root folder>\DDB.HPApi
+      dotnet run
+    ```
+  - Run the frontend:
+    ```CMD
+      cd <root folder>\ddb-hp-ui
+      npm install
+      npm run build
+      npm run start
+    ```
+4. When the scripts are done the backend should be running on http://localhost:5011 and the frontend should be running on http://localhost:3000.  Open the frontend in your browser and have fun :)
 
-2. **Heal**
-    - Enable clients to heal a player character, increasing their HP.
 
-3. **Add Temporary Hit Points**
-    - Implement the functionality to add temporary Hit Points to a player character.
-    - Ensure that temporary Hit Points follow the rules: they are not additive, always taking the higher value, and cannot be healed.
+## Architecture
+The application consists of three major parts. A SQL database, a .NET Core Web API, and a NextJS app for the UI.  The SQL database stores character data.  The API is responsible for updating the character data in the database and for serving incoming requests for character data.  The UI displays character data and provides controls on page for interacting with the API.  Below is a digram depicting different layers of the overall application, followed by more details regarding each layer.
 
-    > Imagine a player character named "Eldric" currently has 11 Hit Points (HP) and no temporary Hit Points. He finds a magical item that grants him an additional 10 HP during the next fight. When the attacker rolls a 19, Eldric will lose all 10 temporary Hit Points and 9 from his player HP.
+![Architecture Diagram](https://github.com/jasstsg/back-end-developer-challenge/blob/master/diagrams/Architecture.drawio.png)
 
-#### Implementation Details
-- Build the API using either C# or NodeJS.
-- Ensure that character information, including HP, is initialized during the start of the application. Developers do not need to calculate HP; it is provided in the `briv.json` file.
-- Retrieve character information, including HP, from the `briv.json` file.
+### SQL CharacterDB
+SQL is used to house a database called "CharacterDB".  The tables are broken down to match each model that was used in code, and the models are based on the JSON objects in the [provided character JSON file](https://github.com/jasstsg/back-end-developer-challenge/blob/master/DDB.HPApi/briv.json).  Below is a diagram showing how the models were identified in the JSON structure (left) and how the tables are related to each other as a result of their respective models navigation properties (right).
 
+![Models & SQL Tables](https://github.com/jasstsg/back-end-developer-challenge/blob/master/diagrams/Models%20%26%20SQL%20Structure.PNG)
 
-#### Data Storage
-- You have the flexibility to choose the data storage method for character information.
+### .NET Core Backend
 
-### Instructions to Run Locally
-1. Clone the repository or obtain the project files.
-2. Install any required dependencies using your preferred package manager.
-3. Configure the API with necessary settings (e.g., database connection if applicable).
-4. Build and run the API service locally.
-5. Utilize the provided `briv.json` file as a sample character data, including HP, for testing the API.
+#### Character Controller
+This controller is the exposed API, it has actions for each of the required API Operations (Deal Damage, Heal, Add Temporary Hit Points).  These actions pass data from requests to the service layer.
 
-### Additional Notes
-- Temporary Hit Points take precedence over the regular HP pool and cannot be healed.
-- Characters with resistance take half damage, while characters with immunity take no damage from a damage type.
-- Use character filename as identifier
+#### Character Service
+The service layer houses the business logic that processes the given data.  For example, when a request is made to 'deal damage' it will consider the character's resistances and immunities (halving or negating the damage) and apply the resulting damage to the temporary and actualy hit points appropriately.  It then provides new character data to the repository layer.
 
-#### Possible Damage Types in D&D
-Here is a list of possible damage types that can occur in Dungeons & Dragons (D&D). These damage types should be considered when dealing damage or implementing character resistances and immunities:
-- Bludgeoning
-- Piercing
-- Slashing
-- Fire
-- Cold
-- Acid
-- Thunder
-- Lightning
-- Poison
-- Radiant
-- Necrotic
-- Psychic
-- Force
+#### Character Respository
+The repository layer is unaware of the API operations.  It abstracts EF Core methods and exposes its own simple methods (to be used by the service layer) that retrieve or update character data.
 
-If you have any questions or require clarification, please reach out to your Wizards of the Coast contact, and we will provide prompt assistance.
+#### EF Core
+Microsoft's EntityFramework Core is used to read and write data to the SQL database.  Its methods are called by the repository layer, and during application initiliazation in order to seed the database.
 
-Good luck with the implementation!
+### NextJS Frontend 
+
+#### React UI
+React + TypeScript component front end interface providing controls for performing the API operations.  This UI leverages components from [MaterialUI](https://mui.com/material-ui/).
+
+![UI Image](https://github.com/jasstsg/back-end-developer-challenge/blob/master/diagrams/UI.PNG)
+
+#### Axios Service
+A service that is invoked by the controls in the React UI.  It makes requests to the .NET Core Web API using [Axios](https://axios-http.com/docs/intro) and provides response data back to the UI so it can reflect updates in the page.
+
