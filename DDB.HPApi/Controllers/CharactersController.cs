@@ -1,16 +1,16 @@
 ﻿using DDB.HPApi.Controllers.Abstractions;
-using DDB.HPApi.Enums;
+using DDB.HPApi.Models;
 using DDB.HPApi.Models.RequestData;
 using DDB.HPApi.Services.Abstractions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 
 namespace DDB.HPApi.Controllers
 {
+    /// <summary>
+    /// A controller exposing the API for external applications
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
-
     public class CharactersController : CustomControllerBase
     {
         private readonly ICharacterService _service;
@@ -20,6 +20,11 @@ namespace DDB.HPApi.Controllers
             _service = service;
         }
 
+        /// <summary>
+        /// Retrieves a single character with the given <paramref name="id"/>
+        /// </summary>
+        /// <param name="id">A unique GUID associated with the <see cref="Character"/></param>
+        /// <returns>A single <see cref="Character" /> object as an <see cref="IActionResult"/></returns>
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetCharacter(Guid id)
@@ -35,10 +40,16 @@ namespace DDB.HPApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Retrieves all characters
+        /// </summary>
+        /// <returns>A collection of <see cref="Character"/> objects as an <see cref="IActionResult"/></returns>
         [HttpGet]
         [Route("")]
         public async Task<IActionResult> GetCharacters()
         {
+            // Ideally we would actually limit the number of characters being returned in case there was an enormous amount
+            // You made doing this by introducing 'take' and 'skip' parameters in the request
             try
             {
                 var result = await _service.GetCharacters();
@@ -50,6 +61,12 @@ namespace DDB.HPApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Applies <paramref name="damage"/> to a <see cref="Character"/> associated with the <paramref name="id"/>
+        /// </summary>
+        /// <param name="id">A unique GUID associated with the <see cref="Character"/></param>
+        /// <param name="damage">A <see cref="Damage"/> object containing the type and amount of damage applied</param>
+        /// <returns>The updated <see cref="Character" /> object as an <see cref="IActionResult"/></returns>
         [HttpPost]
         [Route("{id}/damage")]
         public async Task<IActionResult> DamageCharacter(Guid id, [FromBody] Damage damage)
@@ -69,6 +86,12 @@ namespace DDB.HPApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Heals the <see cref="Character"/> associated with the <paramref name="id"/>
+        /// </summary>
+        /// <param name="id">A unique GUID associated with the <see cref="Character"/></param>
+        /// <param name="heal">A <see cref="Heal"/> object containing the amount of healing applied</param>
+        /// <returns>The updated <see cref="Character" /> object as an <see cref="IActionResult"/></returns>
         [HttpPost]
         [Route("{id}/heal")]
         public async Task<IActionResult> HealCharacter(Guid id, [FromBody] Heal heal)
@@ -88,6 +111,12 @@ namespace DDB.HPApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Adds temporary hit points to the <see cref="Character"/> associated with the <paramref name="id"/>
+        /// </summary>
+        /// <param name="id">A unique GUID associated with the <see cref="Character"/></param>
+        /// <param name="tempHeal">A <see cref="Heal"/> object containing the amount of temporary healing applied</param>
+        /// <returns>The updated <see cref="Character" /> object as an <see cref="IActionResult"/></returns>
         [HttpPost]
         [Route("{id}/temp-heal")]
         public async Task<IActionResult> TempHealCharacter(Guid id, [FromBody] Heal tempHeal)

@@ -15,7 +15,15 @@ export default function CustomForm( props: { props: Character }) {
     const [characterInfo, setCharacterInfo] = useState("");
     
     useEffect(() => {
-        setCharacterInfo(`${character.name} has ${character.currentHitPoints} / ${character.hitPoints} HP and ${character.tempHitPoints} temporary HP`);
+        let resistances = character.defenses.filter(d => d.defense == "Resistance");
+        let immunities = character.defenses.filter(d => d.defense == "Immunity");
+        setCharacterInfo(
+            `${character.name}
+HP:               ${character.currentHitPoints} / ${character.hitPoints}
+Temp HP:      ${character.tempHitPoints}
+Resistances: ${resistances.map(r => r.type).join(",")}
+Immunities:    ${immunities.map(r => r.type).join(",")}`
+        );
     }, [character])
 
     const actions = ["Deal Damage", "Heal", "Add Temporary Hit Points"]
@@ -41,7 +49,6 @@ export default function CustomForm( props: { props: Character }) {
     const [action, setAction] = useState(0);
     const [damageType, setDamageType] = useState(0);
     const [value, setValue] = useState(0);
-
 
     const handleExecuteAction = async () => {
         let res = null;

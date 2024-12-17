@@ -28,8 +28,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy(_corsPolicyName, policybuilder =>
     {
         policybuilder.WithOrigins("http://localhost:3000");
-        policybuilder.AllowAnyHeader();
-        policybuilder.AllowAnyMethod();
+        policybuilder.AllowAnyHeader(); // In the future we would want to be more specific about the headers allowed
+        policybuilder.AllowAnyMethod(); // In the future we would want to be more specific about the methods allowed
     });
 });
 

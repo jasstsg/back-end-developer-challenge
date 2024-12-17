@@ -89,7 +89,7 @@ namespace DDB.HPApi.Services
         public async Task<Character> TempHealCharacter(Guid id, int value)
         {
             var character = await _repository.GetByIdAsync(id);
-            character.TempHitPoints += value;
+            character.TempHitPoints = Math.Max(character.TempHitPoints, value);
             return await _repository.UpdateAsync(character);
         }
     }

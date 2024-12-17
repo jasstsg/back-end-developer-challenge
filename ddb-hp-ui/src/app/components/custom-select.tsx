@@ -24,7 +24,7 @@ export default function CustomSelect(props: CustomSelectProps) {
                 labelId={`${props.id}-label`}
                 id={`${props.id}-select`}
                 label={props.label}
-                defaultValue={props.selectOptions[props.defaultValue]}
+                defaultValue={props.defaultValue.toString()}
                 onChange={handleChange}
                 disabled={props.disabled ?? false}
             >
