@@ -16,7 +16,7 @@ namespace DDB.HPApi.Repositories.Abstractions
         /// </summary>
         /// <returns>A collection of <see cref="Character"/> objects</returns>
         /// <remarks>A future version will use 'take' and 'skip' parameters to limit the size of the data retrieved</remarks>
-        Task<IEnumerable<Character>> GetAll();
+        Task<IEnumerable<Character>> GetAllAsync();
 
         /// <summary>
         /// Updates a <see cref="Character"/> using the id as an identifier for the given <paramref name="character"/>

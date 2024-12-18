@@ -1,4 +1,5 @@
 ﻿using DDB.HPApi.Controllers.Abstractions;
+using DDB.HPApi.Exceptions;
 using DDB.HPApi.Models;
 using DDB.HPApi.Models.RequestData;
 using DDB.HPApi.Services.Abstractions;
@@ -32,7 +33,11 @@ namespace DDB.HPApi.Controllers
             try
             {
                 var result = await _service.GetCharacter(id);
-                return OkResult(result, $"Retrieving character '{id}'.");
+                return OkResponse(result, $"Retrieving character '{id}'.");
+            }
+            catch (CharacterWithIdNotFound ex)
+            {
+                return NotFoundResponse(ex);
             }
             catch (Exception ex)
             {
@@ -53,7 +58,7 @@ namespace DDB.HPApi.Controllers
             try
             {
                 var result = await _service.GetCharacters();
-                return OkResult(result, "Retrieving all characters");
+                return OkResponse(result, "Retrieving all characters");
             }
             catch (Exception ex)
             {
@@ -77,8 +82,14 @@ namespace DDB.HPApi.Controllers
                 {
                     return BadRequestResponse("Damage value must be a positive integer");
                 }
+
                 var result = await _service.DamageCharacter(id, damage.DamageType, damage.Value);
-                return OkResult(result, $"Attempting to deal '{damage.Value}' '{damage.DamageType}' damage to character ({id}).");
+                
+                return OkResponse(result, $"Attempting to deal '{damage.Value}' '{damage.DamageType}' damage to character ({id}).");
+            }
+            catch (CharacterWithIdNotFound ex)
+            {
+                return NotFoundResponse(ex);
             }
             catch (Exception ex)
             {
@@ -102,8 +113,14 @@ namespace DDB.HPApi.Controllers
                 {
                     return BadRequestResponse("Heal value must be a positive integer");
                 }
+
                 var result = await _service.HealCharacter(id, heal.Value);
-                return OkResult(result, $"Healing character ({id}) up to '{heal.Value}' hit points.");
+                
+                return OkResponse(result, $"Healing character ({id}) up to '{heal.Value}' hit points.");
+            }
+            catch (CharacterWithIdNotFound ex)
+            {
+                return NotFoundResponse(ex);
             }
             catch (Exception ex)
             {
@@ -127,8 +144,14 @@ namespace DDB.HPApi.Controllers
                 {
                     return BadRequestResponse("Temporary heal value must be a positive integer");
                 }
+
                 var result = await _service.TempHealCharacter(id, tempHeal.Value);
-                return OkResult(result, $"Adding '{tempHeal.Value}' temporary hit points to character ({id}).");
+                
+                return OkResponse(result, $"Adding '{tempHeal.Value}' temporary hit points to character ({id}).");
+            }
+            catch (CharacterWithIdNotFound ex)
+            {
+                return NotFoundResponse(ex);
             }
             catch (Exception ex)
             {

@@ -11,16 +11,22 @@ namespace DDB.HPApi.Controllers.Abstractions
             _logger = logger;
         }
 
-        protected ObjectResult OkResult(object? value, string message)
+        protected OkObjectResult OkResponse(object? value, string message)
         {
             _logger.LogDebug($"HTTP 200 - Ok: ${message}");
             return Ok(value);
         }
 
-        protected ObjectResult BadRequestResponse(string reason)
+        protected BadRequestObjectResult BadRequestResponse(string reason)
         {
             _logger.LogError($"HTTP 400 - Bad Request: {reason}");
             return BadRequest(reason);
+        }
+
+        protected NotFoundObjectResult NotFoundResponse(Exception ex)
+        {
+            _logger.LogError($"HTTP 404 - Not Found: {ex.Message}");
+            return NotFound(ex.Message);
         }
 
         protected ObjectResult InternalServerErrorResponse(Exception ex)

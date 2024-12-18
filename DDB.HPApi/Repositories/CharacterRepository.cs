@@ -1,4 +1,5 @@
 ﻿using DDB.HPApi.Data;
+using DDB.HPApi.Exceptions;
 using DDB.HPApi.Models;
 using DDB.HPApi.Repositories.Abstractions;
 using Microsoft.EntityFrameworkCore;
@@ -23,10 +24,15 @@ namespace DDB.HPApi.Repositories
                 .Include(c => c.Items)
                 .FirstOrDefaultAsync(c => c.Id.Equals(id));
 
-            return result!;
+            if (result == null)
+            {
+                throw new CharacterWithIdNotFound(id);
+            }
+
+            return result;
         }
 
-        public async Task<IEnumerable<Character>> GetAll()
+        public async Task<IEnumerable<Character>> GetAllAsync()
         {
             return await _context.Characters
                 .Include(c => c.Stats)
@@ -39,9 +45,15 @@ namespace DDB.HPApi.Repositories
         public async Task<Character> UpdateAsync(Character character)
         {
             var result = await _context.Characters.FindAsync(character.Id);
+            if (result == null)
+            {
+                throw new CharacterWithIdNotFound(character.Id);
+            }
+
             _context.Characters.Update(character);
             await _context.SaveChangesAsync();
-            return result!;
+
+            return result;
         }
     }
 }
