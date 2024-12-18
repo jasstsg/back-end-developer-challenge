@@ -3,6 +3,11 @@
 ## Overview
 This repository implements the task outlined in the [back-end-developer-challenge](https://github.com/DnDBeyond/back-end-developer-challenge) repository.  It provides an API for managing a Dungeons and Dragons player character's Hit Points (HP).  The API provides operations for dealing damage, healing, and add temporary hit points to the character.
 
+## Documentation
+- [API Specification](https://github.com/jasstsg/back-end-developer-challenge/wiki/API-Specification)
+- [Architecture](https://github.com/jasstsg/back-end-developer-challenge/wiki/Architecture)
+- [Unit Testing](https://github.com/jasstsg/back-end-developer-challenge/wiki/Unit-Testing)
+
 ## Usage
 
 ### Dependencies
@@ -27,10 +32,3 @@ This repository implements the task outlined in the [back-end-developer-challeng
       npm run start
     ```
 4. When the scripts are done the backend should be running on http://localhost:5011 and the frontend should be running on http://localhost:3000.  Open the frontend in your browser and have fun :)
-
-## Additional Documentation
-- [Architecture](https://github.com/jasstsg/back-end-developer-challenge/wiki/Architecture)
-- [API Specification](https://github.com/jasstsg/back-end-developer-challenge/wiki/API-Specification)
-- [Unit Testing](https://github.com/jasstsg/back-end-developer-challenge/wiki/Unit-Testing)
-
-
