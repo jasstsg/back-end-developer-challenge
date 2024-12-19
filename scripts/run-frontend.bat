@@ -1,7 +1,6 @@
 @echo off
 cd ..\ddb-hp-ui
 
-
 echo installing npm modules...
 call npm install
 
