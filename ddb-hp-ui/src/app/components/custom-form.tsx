@@ -26,7 +26,7 @@ Immunities:    ${immunities.map(r => r.type).join(",")}`
         );
     }, [character])
 
-    const actions = ["Deal Damage", "Heal", "Add Temporary Hit Points"]
+    const actions = ["Deal Damage", "Heal", "Add Temporary Hit Points"];
     
     // Ideally this would be retrieved from the API or a shared resource that the API uses too
     // This would ensure that the damage types stay consistent is something were to change
@@ -44,7 +44,7 @@ Immunities:    ${immunities.map(r => r.type).join(",")}`
         "Necrotic",
         "Psychic",
         "Force"
-    ]
+    ];
 
     const [action, setAction] = useState(0);
     const [damageType, setDamageType] = useState(0);
